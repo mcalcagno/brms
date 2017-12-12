@@ -1,0 +1,21 @@
+package brazil.veobr;
+
+import uk.co.portaltech.rulesengine.wrappers.AbstractRuleFact;
+import uk.co.portaltech.rulesengine.wrappers.CustomerFact;
+import uk.co.portaltech.rulesengine.wrappers.KPIConstFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderFact;
+
+
+rule "Off-Route (Retailer message)"
+	salience 170
+	dialect "mvel"
+	when
+		 order : OrderFact( offRoute == true )
+	then
+		order.addViolation("WARN","rulesengine.message.OffRouteOrderRetailerMessage"); System.out.println("Rule fired: WARN  rulesengine.message.OffRouteOrderRetailerMessage");
+end

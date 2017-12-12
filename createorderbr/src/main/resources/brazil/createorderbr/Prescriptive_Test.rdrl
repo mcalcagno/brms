@@ -1,0 +1,13 @@
+package brazil.createorderbr;
+
+
+import uk.co.portaltech.rulesengine.wrappers.KPIConstFact;
+import uk.co.portaltech.rulesengine.wrappers.CustomerFact;
+
+rule "Prescriptive Test"
+	dialect "mvel"
+	when
+		customer: CustomerFact($V3rowID : storeNumber, (customerGroups contains "testGroup-Corey"))
+	then
+		customer.addViolation("WARN",String.valueOf("rulesengine.message.testDynMsg--"+$V3rowID),"","KPI")
+end

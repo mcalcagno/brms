@@ -1,0 +1,21 @@
+package brazil.veobr;
+
+import uk.co.portaltech.rulesengine.wrappers.AbstractRuleFact;
+import uk.co.portaltech.rulesengine.wrappers.CustomerFact;
+import uk.co.portaltech.rulesengine.wrappers.KPIConstFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderFact;
+
+
+rule "NPIRanging"
+	dialect "mvel"
+	when
+		 CustomerFact( customerGroups contains "npiranging" )
+		 entry : OrderEntryFact( SKU == "10981106-CT" || SKU == "10980902-CT" || SKU == "10981012-CT" || SKU == "10981138-CT" || SKU == "10980898-CT" , orderedQuantity <= 0 )
+	then
+		entry.addViolation("WARN","rulesengine.message.orderValidation.cartEntrylevelNPIRanging"); System.out.println("Rule fired: WARN  rulesengine.message.orderValidation.cartEntrylevelNPIRanging");
+end

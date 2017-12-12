@@ -1,0 +1,10 @@
+<configuration>
+  <imports>
+    <imports>
+      <import>
+        <type>uk.co.portaltech.rulesengine.wrappers.CustomerFact</type>
+      </import>
+    </imports>
+  </imports>
+  <version>1.0</version>
+</configuration>

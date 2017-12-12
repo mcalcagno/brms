@@ -1,0 +1,14 @@
+package brazil.createorderbr;
+
+
+import uk.co.portaltech.rulesengine.wrappers.KPIConstFact;
+import uk.co.portaltech.rulesengine.wrappers.CustomerFact;
+
+rule "KPI Rule 2"
+	dialect "mvel"
+	when
+		 customer : CustomerFact( )
+		 KPIConstFact( oosLast4Wk >= "0" && daysStockLast4Wk < "50" && targetStockAdhLast4Wk < "100" )
+	then
+		customer.addViolation("WARN","rulesengine.message.low.inventory.flag","0","KPI"); System.out.println("Rule fired: WARN  rulesengine.message.low.inventory.flag  0  KPI");
+end;

@@ -1,0 +1,21 @@
+package brazil.veobr;
+
+import uk.co.portaltech.rulesengine.wrappers.AbstractRuleFact;
+import uk.co.portaltech.rulesengine.wrappers.CustomerFact;
+import uk.co.portaltech.rulesengine.wrappers.KPIConstFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderFact;
+
+rule "InventoryValidation(Line)"
+	salience 170
+	dialect "mvel"
+	when
+		 entry : OrderEntryFact( onHandInventory == null  || < 0 , orderedQuantity > 0 , classifications contains "GS_FG_CIGARETTE" )
+		 CustomerFact( customerGroups contains "SOQ_Enabled-ColumnConfiguration" )
+	then
+		entry.addViolation("WARN","rulesengine.message.InventoryValidationForLine"); System.out.println("Rule fired: WARN  rulesengine.message.InventoryValidationForLine");
+end

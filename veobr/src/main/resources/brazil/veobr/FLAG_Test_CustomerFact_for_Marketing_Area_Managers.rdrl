@@ -1,0 +1,21 @@
+package brazil.veobr;
+
+import uk.co.portaltech.rulesengine.wrappers.AbstractRuleFact;
+import uk.co.portaltech.rulesengine.wrappers.CustomerFact;
+import uk.co.portaltech.rulesengine.wrappers.KPIConstFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderFact;
+
+
+rule "FLAG Test CustomerFact for Marketing Area Managers"
+	dialect "mvel"
+	when
+		 CustomerFact( storeNumber == "527217"  || == "2362591"  || == "33144"  || == "1261318" )
+		 order : OrderFact( )
+	then
+		order.addViolation("FLAG","rulesengine.message.MarketingAreaMgrsTest_FLAG"); System.out.println("Rule fired: FLAG  rulesengine.message.MarketingAreaMgrsTest_FLAG");
+end

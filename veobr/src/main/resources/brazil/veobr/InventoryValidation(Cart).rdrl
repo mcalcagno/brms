@@ -1,0 +1,23 @@
+package brazil.veobr;
+
+import uk.co.portaltech.rulesengine.wrappers.AbstractRuleFact;
+import uk.co.portaltech.rulesengine.wrappers.CustomerFact;
+import uk.co.portaltech.rulesengine.wrappers.KPIConstFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.OrderFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.PriceCaptureFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderEntryFact;
+import uk.co.portaltech.rulesengine.wrappers.VeoProductReturnsOrderFact;
+
+
+rule "InventoryValidation(Cart)"
+	salience 260
+	dialect "mvel"
+	when
+		 order : OrderFact( )
+		 list : java.util.List( eval( size() > ((double) 0.21) * ((double) order.totalEntries) )) from collect ( OrderEntryFact( onHandInventory == null  || < 0 , orderedQuantity > 0 , classifications contains "GS_FG_CIGARETTE" )) 
+		 CustomerFact( customerGroups contains "SOQ_Enabled-ColumnConfiguration" )
+	then
+		order.addViolation("FLAG","rulesengine.message.InventoryValidationForCart"); System.out.println("Rule fired: FLAG  rulesengine.message.InventoryValidationForCart");
+end
